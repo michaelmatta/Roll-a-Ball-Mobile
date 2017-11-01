@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour {
 
 	private Rigidbody rb;
 	private int count;
+	private float xOffset;
+	private float zOffset;
 
 	void Start() // called on first frame
 	{
@@ -17,14 +19,17 @@ public class PlayerController : MonoBehaviour {
 		SetCountText();
 		winText.text = "";
 		rb = GetComponent<Rigidbody> ();
+
+		xOffset = Input.acceleration.x;
+		zOffset = -Input.acceleration.z;
 	}
 
 	void FixedUpdate() //physics updates - use command + ' with highlighted thing for possible functions (Input, RigidBody)
 	{ 
-		float moveHorizontal = Input.GetAxis ("Horizontal");
-		float moveVertical = Input.GetAxis ("Vertical");
+		float moveHorizontal = Input.acceleration.x;
+		float moveVertical = -Input.acceleration.z;
 
-		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
+		Vector3 movement = new Vector3 (moveHorizontal - xOffset, 0.0f, moveVertical - zOffset);
 
 		rb.AddForce (movement * speed);
 	}
